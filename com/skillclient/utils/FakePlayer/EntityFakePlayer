@@ -1,0 +1,83 @@
+package com.skillclient.utils.FakePlayer;
+
+import net.minecraft.init.Items;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+import com.mojang.authlib.GameProfile;
+import java.util.UUID;
+import net.minecraft.client.entity.AbstractClientPlayer;
+
+public class EntityFakePlayer extends AbstractClientPlayer
+{
+    public EntityFakePlayer() {
+        this(getDefaultFakePlayer());
+    }
+    
+    public static String getDefaultFakePlayer() {
+        return EntityFakePlayer.sc.indev ? "WiZARDHAXoCOM" : "MCmodding4K";
+    }
+    
+    public EntityFakePlayer(final String name) {
+        super((World)null, new GameProfile(new UUID(0L, 0L), name));
+        getDownloadImageSkin(this.getLocationSkin(), name);
+    }
+    
+    public double getDistanceSqToEntity(final Entity entityIn) {
+        return 0.0;
+    }
+    
+    public float getBrightness(final float partialTicks) {
+        return 255.0f;
+    }
+    
+    public int getBrightnessForRender(final float partialTicks) {
+        return 255;
+    }
+    
+    public String getSkinType() {
+        return "default";
+    }
+    
+    public boolean isSpectator() {
+        return false;
+    }
+    
+    public boolean hasSkin() {
+        return true;
+    }
+    
+    public ResourceLocation getLocationSkin() {
+        return new ResourceLocation("skin/" + this.getName());
+    }
+    
+    public NetworkPlayerInfo getPlayerInfo() {
+        return new NetworkPlayerInfo(new GameProfile(new UUID(0L, 0L), this.getName()));
+    }
+    
+    public Scoreboard getWorldScoreboard() {
+        return new Scoreboard();
+    }
+    
+    public ItemStack getHeldItem() {
+        if (this.getName().equals(getDefaultFakePlayer())) {
+            return new ItemStack(Blocks.command_block);
+        }
+        return new ItemStack(Items.diamond_sword);
+    }
+    
+    public void onUpdate() {
+    }
+    
+    public void setDead() {
+    }
+    
+    public boolean canBePushed() {
+        return false;
+    }
+}
+
